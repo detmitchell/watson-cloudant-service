@@ -4,9 +4,9 @@ var Cloudant = require('../lib/cloudant');
 
 var cloudant = new Cloudant({
 	cred: {
-		// account: 'account',
-		// username: 'username',
-		// password: 'password'
+		account: 'ef5b67ac-b73a-4454-8c76-aa943ab318fb-bluemix',
+		username: 'avesteregereeddreminglas',
+		password: '873e6c87d8ebb2ac1563bcdbc83e9b3e0a3814a5'
 		
 	},
 	dbname: 'watson-nlc'
@@ -103,7 +103,7 @@ describe('cloudant', function () {
 					if (err) console.log('Delete failed, ensure that you have admin access');
 					else {
 						var data = response;
-						console.log(data);
+						console.log('Delete Successful');
 					}
 					done();
 				})
