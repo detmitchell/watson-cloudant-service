@@ -4,9 +4,9 @@ var Cloudant = require('../lib/cloudant');
 
 var cloudant = new Cloudant({
 	cred: {
-		account: 'ef5b67ac-b73a-4454-8c76-aa943ab318fb-bluemix',
-		username: 'htedingstimalecatruedirs',
-		password: '51f56826bc15976e4adf13142b8e65930aa785b2'
+		account: 'a',
+		username: 'u',
+		password: 'p'
 	},
 	dbname: 'watson-nlc'
 });
@@ -20,10 +20,11 @@ describe('cloudant', function () {
 	it('.createDocument', function (done) {
 		this.timeout(5000);
 		expect(cloudant.createDocument).to.be.a('function');
+
 		var objToInsert = {
+			_id = 'test_id',
 			a: 1,
-			b: 'soothsayer'
-		};
+			b: 'soothsayer'	};
 		cloudant.createDocument(objToInsert, function (err, response) {
 			if (err) console.log(err);
 			else {
@@ -37,9 +38,10 @@ describe('cloudant', function () {
 			expect(data).to.have.property('rev');
 			done();
 		});
-	})
+	}) 
 	it('.readDocument', function (done) {
 		expect(cloudant.readDocument).to.be.a('function');
+
 		var _id= '100';
 		cloudant.readDocument(_id, function (err, response) {
 			if (err) console.log(err);
@@ -50,7 +52,7 @@ describe('cloudant', function () {
 			done();
 		})
 	})
-
+	
 	it('.updateDocument', function (done) {
 		this.timeout(5000);
 		var dat;
@@ -60,7 +62,6 @@ describe('cloudant', function () {
 			if (err) console.log(err);
 			else {
 				dat = response;
-
 				var objToUpdate = {
 					_id: '0',
 					value: "new val",
@@ -80,6 +81,30 @@ describe('cloudant', function () {
 						done();
 					}
 				});
+			}
+		});
+	})
+
+	it('.deleteDocument', function (done) {
+		this.timeout(5000);
+		var dat;
+		expect(cloudant.deleteDocument).to.be.a('function');
+		cloudant.readDocument({ _id: 'test_id' }, function (err, response) {
+			if (err) console.log(err);
+			else {
+				dat = response;
+				var objToDelete= {
+						_id: 'test_id',
+						_rev: dat._rev
+				}
+				cloudant.deleteDocument(objToDelete, function (err, response) {
+					if (err) console.log('Delete failed, ensure that you have admin access');
+					else {
+						var data = response;
+						console.log(data);
+					}
+					done();
+				})
 			}
 		});
 	})
