@@ -4,9 +4,9 @@ var Cloudant = require('../lib/cloudant');
 
 var cloudant = new Cloudant({
 	cred: {
-		account: 'ef5b67ac-b73a-4454-8c76-aa943ab318fb-bluemix',
-		username: 'avesteregereeddreminglas',
-		password: '873e6c87d8ebb2ac1563bcdbc83e9b3e0a3814a5'
+		// account: "<account>",
+		// username: "<username>",
+		// password: "<password>"
 		
 	},
 	dbname: 'watson-nlc'
