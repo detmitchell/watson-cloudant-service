@@ -4,14 +4,9 @@ var Cloudant = require('../lib/cloudant');
 
 var cloudant = new Cloudant({
 	cred: {
-		account: 'ef5b67ac-b73a-4454-8c76-aa943ab318fb-bluemix',
-<<<<<<< HEAD
-		username: 'hereeterembredidedntseds',
-		password: 'a3d3a6fedfa14007b5a68d2c5e5fa7f44902fe4e'
-=======
-		username: 'htedingstimalecatruedirs',
-		password: '51f56826bc15976e4adf13142b8e65930aa785b2'
->>>>>>> 6c08c1d10e3b2bb8816f9da7dec74120171a4b4b
+		account: 'account',
+		username: 'username',
+		password: 'password'
 	},
 	dbname: 'watson-nlc'
 });
@@ -25,18 +20,18 @@ describe('cloudant', function () {
 	it('.createDocument', function (done) {
 		this.timeout(5000);
 		expect(cloudant.createDocument).to.be.a('function');
-<<<<<<< HEAD
+
 		var params = {
 			objToInsert: {
 				_id: 'test_id',
 				a: 1,
 				b: 'soothsayer'
 			}
-=======
+		}
 		var objToInsert = {
 			a: 1,
 			b: 'soothsayer'
->>>>>>> 6c08c1d10e3b2bb8816f9da7dec74120171a4b4b
+
 		};
 		cloudant.createDocument(objToInsert, function (err, response) {
 			if (err) console.log(err);
@@ -54,15 +49,15 @@ describe('cloudant', function () {
 	})
 	it('.readDocument', function (done) {
 		expect(cloudant.readDocument).to.be.a('function');
-<<<<<<< HEAD
+
 		var params = {
 			_id: 'test_id'
 		}
 		cloudant.readDocument(params, function (err, response) {
-=======
+
 		var _id= '100';
 		cloudant.readDocument(_id, function (err, response) {
->>>>>>> 6c08c1d10e3b2bb8816f9da7dec74120171a4b4b
+
 			if (err) console.log(err);
 			else {
 				var data = response;
@@ -77,28 +72,16 @@ describe('cloudant', function () {
 		var dat;
 		expect(cloudant.updateDocument).to.be.a('function');
 
-<<<<<<< HEAD
-		cloudant.readDocument({ _id: 'test_id' }, function (err, response) {
-=======
 		cloudant.readDocument('0', function (err, response) {
->>>>>>> 6c08c1d10e3b2bb8816f9da7dec74120171a4b4b
+
 			if (err) console.log(err);
 			else {
 				dat = response;
-
-<<<<<<< HEAD
-				var params = {
-					objToUpdate: {
-						_id: 'test_id',
-						value: "new val",
-						_rev: dat._rev
-					}
-=======
 				var objToUpdate = {
 					_id: '0',
 					value: "new val",
 					_rev: dat._rev
->>>>>>> 6c08c1d10e3b2bb8816f9da7dec74120171a4b4b
+
 				};
 
 				cloudant.updateDocument(objToUpdate, function (err, response) {
@@ -118,7 +101,6 @@ describe('cloudant', function () {
 		});
 	})
 
-<<<<<<< HEAD
 	it('.deleteDocument', function (done) {
 		this.timeout(5000);
 		var dat;
@@ -143,8 +125,6 @@ describe('cloudant', function () {
 		});
 	})
 
-=======
->>>>>>> 6c08c1d10e3b2bb8816f9da7dec74120171a4b4b
 	it('.search', function (done) {
 		this.timeout(5000);
 		expect(cloudant.search).to.be.a('function');
