@@ -46,7 +46,7 @@ describe('cloudant', function () {
 			expect(data).to.have.property('rev');
 			done();
 		});
-	})
+	}) 
 	it('.readDocument', function (done) {
 		expect(cloudant.readDocument).to.be.a('function');
 
