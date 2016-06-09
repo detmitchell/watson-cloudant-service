@@ -4,9 +4,9 @@ var Cloudant = require('../lib/cloudant');
 
 var cloudant = new Cloudant({
 	cred: {
-		account: 'account',
-		username: 'username',
-		password: 'password'
+		account: 'a',
+		username: 'u',
+		password: 'p'
 	},
 	dbname: 'watson-nlc'
 });
@@ -22,6 +22,7 @@ describe('cloudant', function () {
 		expect(cloudant.createDocument).to.be.a('function');
 
 		var objToInsert = {
+			_id = 'test_id',
 			a: 1,
 			b: 'soothsayer'	};
 		cloudant.createDocument(objToInsert, function (err, response) {
