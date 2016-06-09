@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "service-credentials": "^1.0.1",
+    "watson-developer-cloud": "^1.9.2",
+    "cloudant":"latest",
+    "async": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  }
+}
