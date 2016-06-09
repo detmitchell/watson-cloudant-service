@@ -66,7 +66,7 @@ describe('cloudant', function () {
 			done();
 		})
 	})
-
+	})
 	it('.updateDocument', function (done) {
 		this.timeout(5000);
 		var dat;
