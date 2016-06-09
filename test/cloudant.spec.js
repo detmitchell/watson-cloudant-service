@@ -4,34 +4,31 @@ var Cloudant = require('../lib/cloudant');
 
 var cloudant = new Cloudant({
 	cred: {
-		account: 'acc',
-		username: 'user',
-		password: 'pass'
+		account: 'ef5b67ac-b73a-4454-8c76-aa943ab318fb-bluemix',
+		username: 'htedingstimalecatruedirs',
+		password: '51f56826bc15976e4adf13142b8e65930aa785b2'
 	},
-	dbname: 'db'
+	dbname: 'watson-nlc'
 });
 
 describe('cloudant', function () {
 	it('.constructor', function () {
 		expect(cloudant).to.be.instanceof(Cloudant);
 		expect(cloudant).to.have.property('_cloudant');
-	})
-	it('.createDatabase', function () {
-		expect(cloudant.createDatabase).to.be.a('function');
+		console.log('Constructor succeeded');
 	})
 	it('.createDocument', function (done) {
 		this.timeout(5000);
 		expect(cloudant.createDocument).to.be.a('function');
-		var params = {
-			objToInsert: {
-				a: 1,
-				b: 'soothsayer'
-			}
+		var objToInsert = {
+			a: 1,
+			b: 'soothsayer'
 		};
-		cloudant.createDocument(params, function (err, response) {
+		cloudant.createDocument(objToInsert, function (err, response) {
 			if (err) console.log(err);
 			else {
 				var data = response;
+				console.log('Document Created');
 			}
 			expect(data).to.be.a('object');
 			expect(data).to.have.property('ok');
@@ -43,14 +40,12 @@ describe('cloudant', function () {
 	})
 	it('.readDocument', function (done) {
 		expect(cloudant.readDocument).to.be.a('function');
-		var params = {
-			_id: '86f72603fb4a778bb84c1251f04f598f'
-		}
-		cloudant.readDocument(params, function (err, response) {
+		var _id= '100';
+		cloudant.readDocument(_id, function (err, response) {
 			if (err) console.log(err);
 			else {
 				var data = response;
-				console.log(data);
+				console.log('Read Document');
 			}
 			done();
 		})
@@ -61,24 +56,22 @@ describe('cloudant', function () {
 		var dat;
 		expect(cloudant.updateDocument).to.be.a('function');
 
-		cloudant.readDocument({ _id: '86f72603fb4a778bb84c1251f04f598f' }, function (err, response) {
+		cloudant.readDocument('0', function (err, response) {
 			if (err) console.log(err);
 			else {
 				dat = response;
 
-				var params = {
-					objToUpdate: {
-						_id: '86f72603fb4a778bb84c1251f04f598f',
-						value: "new val",
-						_rev: dat._rev
-					}
+				var objToUpdate = {
+					_id: '0',
+					value: "new val",
+					_rev: dat._rev
 				};
 
-				cloudant.updateDocument(params, function (err, response) {
+				cloudant.updateDocument(objToUpdate, function (err, response) {
 					if (err) console.log('Update failed. Please ensure you have the correct revision number.');
 					else {
 						var data = response;
-						console.log(data);
+						console.log('Update Succeeded');
 						expect(data).to.be.a('object');
 						expect(data).to.have.property('ok');
 						expect(data.ok).to.be.equal(true);
@@ -91,58 +84,27 @@ describe('cloudant', function () {
 		});
 	})
 
-	// it('.deleteDocument', function (done) {
-	// 	this.timeout(5000);
-	// 	var dat;
-	// 	expect(cloudant.deleteDocument).to.be.a('function');
-	// 	cloudant.readDocument({ _id: 'test_id' }, function (err, response) {
-	// 		if (err) console.log(err);
-	// 		else {
-	// 			dat = response;
-
-	// 			var params = {
-	// 				objToDelete: {
-	// 					_id: 'test_id',
-	// 					_rev: dat._rev
-	// 				}
-	// 			}
-	// 			cloudant.deleteDocument(params, function (err, response) {
-	// 				if (err) console.log('Delete failed, ensure that you have admin access');
-	// 				else {
-	// 					var data = response;
-	// 					console.log(data);
-	// 				}
-	// 				done();
-	// 			})
-	// 		}
-	// 	});
-	// })
-
 	it('.search', function (done) {
 		this.timeout(5000);
 		expect(cloudant.search).to.be.a('function');
-		var params = {
-			field: 'a',
-			value: 1
-		}
-		cloudant.search(params, function (err, response) {
+		var field = 'value';
+		var value = 'new val';
+		cloudant.search(field, value, function (err, response) {
 			if (err) console.log(err);
 			else {
-				console.log(response.docs.length);
+				console.log('Found: ' + response.docs.length + ' documents');
 				expect(response).to.be.a('object');
 				done();
 			}
 		})
 	})
 
-	it('.createIndex', function(done){
+	it('.createIndex', function (done) {
 		this.timeout(5000);
 		expect(cloudant.createIndex).to.be.a('function');
-		cloudant.createIndex('index_a','value.a',function(err,response){
-			if(err) console.log(err);
-			else{
-				console.log('Index created: %s',response.result);
-			}
+		cloudant.createIndex('index_a', 'value.a', function (err, response) {
+			if (err) console.log(err);
+			console.log('Index creation: ' + response.result);
 			done();
 		});
 
