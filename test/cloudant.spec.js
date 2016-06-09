@@ -28,7 +28,7 @@ describe('cloudant', function () {
 			if (err) console.log(err);
 			else {
 				var data = response;
-				console.log('Document Created');
+				console.log('Document created');
 			}
 			expect(data).to.be.a('object');
 			expect(data).to.have.property('ok');
