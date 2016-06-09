@@ -27,7 +27,6 @@ describe('cloudant', function () {
 				a: 1,
 				b: 'soothsayer'
 			},
-			id: 'taste'
 		};
 		cloudant.createDocument(params, function (err, response) {
 			if (err) console.log(err);
