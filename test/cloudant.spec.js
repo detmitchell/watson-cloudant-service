@@ -3,11 +3,12 @@ var expect = require('chai').expect;
 var Cloudant = require('../lib/cloudant');
 
 var cloudant = new Cloudant({
-	cred:{
-		account: 'ef5b67ac-b73a-4454-8c76-aa943ab318fb-bluemix',
-		username: 'ildeddentragothrouldther',
-		password: 'e962073e70810f1a6df1115b56cad7c06d93f41d'},
-	dbname: 'watson-nlc'
+	cred: {
+		account: 'account',
+		username: 'username',
+		password: 'password'
+	},
+	dbname: 'db'
 });
 
 describe('cloudant', function () {
@@ -23,6 +24,7 @@ describe('cloudant', function () {
 		expect(cloudant.createDocument).to.be.a('function');
 		var params = {
 			objToInsert: {
+				_id: 'test_id',
 				a: 1,
 				b: 'soothsayer'
 			}
@@ -37,64 +39,83 @@ describe('cloudant', function () {
 			expect(data.ok).to.be.equal(true);
 			expect(data).to.have.property('id');
 			expect(data).to.have.property('rev');
-			done();	
+			done();
 		});
 	})
 	it('.readDocument', function (done) {
 		expect(cloudant.readDocument).to.be.a('function');
 		var params = {
-			_id: '1656d8e6f437b3d9f1532a6f8272b3a9'
+			_id: 'test_id'
 		}
-		cloudant.readDocument(params, function(err,response){
-			if(err) console.log(err);
-			else{
+		cloudant.readDocument(params, function (err, response) {
+			if (err) console.log(err);
+			else {
 				var data = response;
 				console.log(data);
 			}
 			done();
 		})
 	})
+
 	it('.updateDocument', function (done) {
 		this.timeout(5000);
-		expect(cloudant.readDocument).to.be.a('function');
-		var params = {
-			objToUpdate: {
-				_id: 'test',
-				value: 'the document is under my control now',
-				other_value: 666,
-				_rev: '4-1f6e47050cbff64b3f77fde4e3909f89'
+		var dat;
+		expect(cloudant.updateDocument).to.be.a('function');
+
+		cloudant.readDocument({ _id: 'test_id' }, function (err, response) {
+			if (err) console.log(err);
+			else {
+				dat = response;
+
+				var params = {
+					objToUpdate: {
+						_id: 'test_id',
+						value: "new val",
+						_rev: dat._rev
+					}
+				};
+
+				cloudant.updateDocument(params, function (err, response) {
+					if (err) console.log('Update failed. Please ensure you have the correct revision number.');
+					else {
+						var data = response;
+						console.log(data);
+						expect(data).to.be.a('object');
+						expect(data).to.have.property('ok');
+						expect(data.ok).to.be.equal(true);
+						expect(data).to.have.property('id');
+						expect(data).to.have.property('rev');
+						done();
+					}
+				});
 			}
-		};
-		cloudant.updateDocument(params, function(err,response){
-			if(err) console.log('Update failed. Please ensure you have the correct revision number.');
-			else{
-				var data = response;
-				console.log(data);
-				expect(data).to.be.a('object');
-				expect(data).to.have.property('ok');
-				expect(data.ok).to.be.equal(true);
-				expect(data).to.have.property('id');
-				expect(data).to.have.property('rev');
-			}
-			done();
 		});
 	})
+
 	it('.deleteDocument', function (done) {
 		this.timeout(5000);
+		var dat;
 		expect(cloudant.deleteDocument).to.be.a('function');
-		var params = {
-			objToDelete:{
-				_id: 'test',
-				_rev: '4-1f6e47050cbff64b3f77fde4e3909f89'
+		cloudant.readDocument({ _id: 'test_id' }, function (err, response) {
+			if (err) console.log(err);
+			else {
+				dat = response;
+
+				var params = {
+					objToDelete: {
+						_id: 'test_id',
+						_rev: dat._rev
+					}
+				}
+				cloudant.deleteDocument(params, function (err, response) {
+					if (err) console.log('Delete failed, ensure that you have admin access');
+					else {
+						var data = response;
+						console.log(data);
+					}
+					done();
+				})
 			}
-		}
-		cloudant.deleteDocument(params, function(err,response){
-			if(err) console.log('Delete failed, ensure that you have admin access');
-			else{
-				var data = response;
-				console.log(data);
-			}
-			done();
-		})
+		});
 	})
 })
