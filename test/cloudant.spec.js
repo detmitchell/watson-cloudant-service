@@ -4,9 +4,10 @@ var Cloudant = require('../lib/cloudant');
 
 var cloudant = new Cloudant({
 	cred: {
-		account: 'a',
-		username: 'u',
-		password: 'p'
+		// account: 'account',
+		// username: 'username',
+		// password: 'password'
+		
 	},
 	dbname: 'watson-nlc'
 });
@@ -22,9 +23,10 @@ describe('cloudant', function () {
 		expect(cloudant.createDocument).to.be.a('function');
 
 		var objToInsert = {
-			_id = 'test_id',
+			_id : 'test_id',
 			a: 1,
-			b: 'soothsayer'	};
+			b: 'witchdoctor'
+		};
 		cloudant.createDocument(objToInsert, function (err, response) {
 			if (err) console.log(err);
 			else {
@@ -89,7 +91,7 @@ describe('cloudant', function () {
 		this.timeout(5000);
 		var dat;
 		expect(cloudant.deleteDocument).to.be.a('function');
-		cloudant.readDocument({ _id: 'test_id' }, function (err, response) {
+		cloudant.readDocument('test_id', function (err, response) {
 			if (err) console.log(err);
 			else {
 				dat = response;
