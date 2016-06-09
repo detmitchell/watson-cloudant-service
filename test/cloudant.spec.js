@@ -21,18 +21,9 @@ describe('cloudant', function () {
 		this.timeout(5000);
 		expect(cloudant.createDocument).to.be.a('function');
 
-		var params = {
-			objToInsert: {
-				_id: 'test_id',
-				a: 1,
-				b: 'soothsayer'
-			}
-		}
 		var objToInsert = {
 			a: 1,
-			b: 'soothsayer'
-
-		};
+			b: 'soothsayer'	};
 		cloudant.createDocument(objToInsert, function (err, response) {
 			if (err) console.log(err);
 			else {
@@ -50,14 +41,8 @@ describe('cloudant', function () {
 	it('.readDocument', function (done) {
 		expect(cloudant.readDocument).to.be.a('function');
 
-		var params = {
-			_id: 'test_id'
-		}
-		cloudant.readDocument(params, function (err, response) {
-
 		var _id= '100';
 		cloudant.readDocument(_id, function (err, response) {
-
 			if (err) console.log(err);
 			else {
 				var data = response;
@@ -66,14 +51,13 @@ describe('cloudant', function () {
 			done();
 		})
 	})
-	})
+	
 	it('.updateDocument', function (done) {
 		this.timeout(5000);
 		var dat;
 		expect(cloudant.updateDocument).to.be.a('function');
 
 		cloudant.readDocument('0', function (err, response) {
-
 			if (err) console.log(err);
 			else {
 				dat = response;
@@ -81,7 +65,6 @@ describe('cloudant', function () {
 					_id: '0',
 					value: "new val",
 					_rev: dat._rev
-
 				};
 
 				cloudant.updateDocument(objToUpdate, function (err, response) {
