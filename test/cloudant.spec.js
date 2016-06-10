@@ -4,12 +4,12 @@ var Cloudant = require('../lib/cloudant');
 
 var cloudant = new Cloudant({
 	cred: {
-		// account: "<account>",
-		// username: "<username>",
-		// password: "<password>"
+		account: 'ef5b67ac-b73a-4454-8c76-aa943ab318fb-bluemix',
+		username: 'sentoremandednedutersedd',
+		password: '11076598860cbd8b669a1d8955e00fec78eb6edc'
 		
 	},
-	dbname: 'watson-nlc'
+	dbname: 'twitter'
 });
 
 describe('cloudant', function () {
@@ -44,7 +44,7 @@ describe('cloudant', function () {
 	it('.readDocument', function (done) {
 		expect(cloudant.readDocument).to.be.a('function');
 
-		var _id= '100';
+		var _id= 'test_id';
 		cloudant.readDocument(_id, function (err, response) {
 			if (err) console.log(err);
 			else {
@@ -60,12 +60,12 @@ describe('cloudant', function () {
 		var dat;
 		expect(cloudant.updateDocument).to.be.a('function');
 
-		cloudant.readDocument('0', function (err, response) {
+		cloudant.readDocument('test_id', function (err, response) {
 			if (err) console.log(err);
 			else {
 				dat = response;
 				var objToUpdate = {
-					_id: '0',
+					_id: 'test_id',
 					value: "new val",
 					_rev: dat._rev
 				};
@@ -111,11 +111,22 @@ describe('cloudant', function () {
 		});
 	})
 
-	it('.search', function (done) {
+	it('.createIndex', function (done) {
 		this.timeout(5000);
+		expect(cloudant.createIndex).to.be.a('function');
+		cloudant.createIndex('new_index', 'lang', function (err, response) {
+			if (err) console.log(err);
+			console.log('Index creation: ' + response.result);
+			done();
+		});
+
+	})
+
+	it('.search', function (done) {
+		this.timeout(1000000000);
 		expect(cloudant.search).to.be.a('function');
-		var field = 'value';
-		var value = 'new val';
+		var field = 'lang';
+		var value = 'pt';
 		cloudant.search(field, value, function (err, response) {
 			if (err) console.log(err);
 			else {
@@ -126,14 +137,4 @@ describe('cloudant', function () {
 		})
 	})
 
-	it('.createIndex', function (done) {
-		this.timeout(5000);
-		expect(cloudant.createIndex).to.be.a('function');
-		cloudant.createIndex('index_a', 'value.a', function (err, response) {
-			if (err) console.log(err);
-			console.log('Index creation: ' + response.result);
-			done();
-		});
-
-	})
 })
