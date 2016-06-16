@@ -5,11 +5,11 @@ var Cloudant = require('../lib/cloudant');
 var cloudant = new Cloudant({
 	cred: {
 		account: 'ef5b67ac-b73a-4454-8c76-aa943ab318fb-bluemix',
-		username: 'sentoremandednedutersedd',
-		password: '11076598860cbd8b669a1d8955e00fec78eb6edc'
+		username: 'ef5b67ac-b73a-4454-8c76-aa943ab318fb-bluemix',
+		password: 'b2fdd69e12f557c7a9628a51b6cc3ad7db2b0a853ff675c975a69af3abd321c3'
 		
 	},
-	dbname: 'twitter'
+	dbname: 'watson-nlc'
 });
 
 describe('cloudant', function () {
@@ -125,8 +125,8 @@ describe('cloudant', function () {
 	it('.search', function (done) {
 		this.timeout(1000000000);
 		expect(cloudant.search).to.be.a('function');
-		var field = 'lang';
-		var value = 'pt';
+		var field = '_id';
+		var value = 'xxx';
 		cloudant.search(field, value, function (err, response) {
 			if (err) console.log(err);
 			else {
@@ -136,5 +136,18 @@ describe('cloudant', function () {
 			}
 		})
 	})
-
+	it('.list',function(done){
+		this.timeout(100000);
+		expect(cloudant.list).to.be.a('function');
+		cloudant.list(function(err,response){
+			if(err) {
+				console.log(err);
+				return;
+			}
+			else{
+				console.log(JSON.stringify(response));
+				done();
+			}
+		})
+	})
 })
