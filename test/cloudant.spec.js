@@ -139,13 +139,13 @@ describe('cloudant', function () {
 	it('.list',function(done){
 		this.timeout(100000);
 		expect(cloudant.list).to.be.a('function');
-		cloudant.list(function(err,response){
+		cloudant.listAll(function(err,response){
 			if(err) {
 				console.log(err);
 				return;
 			}
 			else{
-				console.log('List ommitted');
+				console.log("List ommitted");
 				done();
 			}
 		})
