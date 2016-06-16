@@ -145,7 +145,7 @@ describe('cloudant', function () {
 				return;
 			}
 			else{
-				console.log(JSON.stringify(response));
+				console.log('List ommitted');
 				done();
 			}
 		})
