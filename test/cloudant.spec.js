@@ -9,7 +9,7 @@ var cloudant = new Cloudant({
 		password: 'b2fdd69e12f557c7a9628a51b6cc3ad7db2b0a853ff675c975a69af3abd321c3'
 		
 	},
-	dbname: 'watson-nlc'
+	dbname: 'watson-nlc-restructure'
 });
 
 describe('cloudant', function () {
@@ -150,4 +150,20 @@ describe('cloudant', function () {
 			}
 		})
 	})
+
+	it('.bulk',function(done){
+		this.timeout(10000);
+		expect(cloudant.bulkInsert).to.be.a('function');
+		var toIns = {'docs': [{'a':1,'b':2},{'c':3,'d':4}]};
+		cloudant.bulkInsert(toIns,function(err,response){
+			if(err){
+				return console.log(err);
+			}
+			else{
+				console.log("Bulk Insert Successful")
+				done();
+			}
+		}
+		)}
+	)
 })
